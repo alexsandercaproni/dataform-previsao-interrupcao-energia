@@ -1,0 +1,10 @@
+config {
+  type: "declaration",
+  database: "tcc-usp-esalq-007",
+  schema: "dados_aneel",
+  name: "mvw_ocorrencias",
+  description: "Dados brutos de ocorrencias contidos no dataset dados_aneel",
+  columns: {
+    
+  }
+}
