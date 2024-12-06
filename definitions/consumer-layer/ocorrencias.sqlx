@@ -14,8 +14,25 @@ config {
     }
 }
 
-SELECT 
-    *
+include "../includes/helpers.js"
+
+
+SELECT
+    DatGeracaoConjuntoDados,
+    ${normalizaDistribuidora(NomAgente)} AS NomeDistribuidora,
+    NumCPFCNPJ,
+    NumOcorrencia,
+    NumConjunto,
+    DthInicioOcorrenciaAberta,
+    DscCanalAtendimento,
+    DthFimOcorrenciaAberta,
+    DscOcorrenciaAberta,
+    DscNumInterrupcao,
+    MdaPreparo,
+    MdaDeslocamento,
+    MdaExecucao,
+    NumVeiculo,
+    CodIBGE
 FROM 
     ${ref("mvw_ocorrencias")}
 LIMIT 
