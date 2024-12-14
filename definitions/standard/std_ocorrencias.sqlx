@@ -1,0 +1,61 @@
+config {
+    type: "table",
+    schema: "standard",
+    name: "tb_ocorrencias",
+    description: "Tabelas de ocorrencias registradas em 2023 e 2024",
+    columns: {
+    },
+    bigquery: {
+        partitionBy: "CAST(dataGeracaoCarga AS DATE)"
+    }
+}
+
+SELECT
+  DatGeracaoConjuntoDados AS dataGeracaoCarga
+  , NomAgente AS nomeDistribuidora
+  , NumOcorrencia as ocorrencia
+  , NumConjunto AS idConjunto
+  , DscCanalAtendimento AS canalAtendimento
+  , DthInicioOcorrenciaAberta AS InicioOcorrencia
+  , DthFimOcorrenciaAberta AS FimOcorrencia
+  , DthFimOcorrenciaAberta - DthInicioOcorrenciaAberta AS duracaoOcorrencia
+  , DscOcorrenciaAberta AS descricaoOcorrencia
+  , MdaPreparo AS tempoPreparoOcorrencia
+  , MdaDeslocamento AS tempoDeslocamento
+  , MdaExecucao AS tempoExecucao
+FROM
+  ${ref("tb_ocorrencias_2023")}
+WHERE
+  DatGeracaoConjuntoDados IS NOT NULL
+  AND LOWER(NomAgente) LIKE '%coelba%'
+    OR LOWER(NomAgente) LIKE '%celpe%'
+    OR LOWER(NomAgente) LIKE '%cosern%'
+    OR LOWER(NomAgente) LIKE '%elektro%'
+    OR LOWER(NomAgente) LIKE '%neoenergia%'
+    OR LOWER(NomAgente) LIKE '%pernambuco%'
+
+UNION ALL
+
+SELECT
+  DatGeracaoConjuntoDados AS dataGeracaoCarga
+  , NomAgente AS nomeDistribuidora
+  , NumOcorrencia as ocorrencia
+  , NumConjunto AS idConjunto
+  , DscCanalAtendimento AS canalAtendimento
+  , DthInicioOcorrenciaAberta AS InicioOcorrencia
+  , DthFimOcorrenciaAberta AS FimOcorrencia
+  , DthFimOcorrenciaAberta - DthInicioOcorrenciaAberta AS duracaoOcorrencia
+  , DscOcorrenciaAberta AS descricaoOcorrencia
+  , MdaPreparo AS tempoPreparoOcorrencia
+  , MdaDeslocamento AS tempoDeslocamento
+  , MdaExecucao AS tempoExecucao
+FROM
+  ${ref("tb_ocorrencias_2024")}
+WHERE
+  DatGeracaoConjuntoDados IS NOT NULL
+  AND LOWER(NomAgente) LIKE '%coelba%'
+    OR LOWER(NomAgente) LIKE '%celpe%'
+    OR LOWER(NomAgente) LIKE '%cosern%'
+    OR LOWER(NomAgente) LIKE '%elektro%'
+    OR LOWER(NomAgente) LIKE '%neoenergia%'
+    OR LOWER(NomAgente) LIKE '%pernambuco%'

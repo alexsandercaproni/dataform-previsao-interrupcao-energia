@@ -1,0 +1,28 @@
+config {
+    type: "table",
+    schema: "consumer_layer",
+    name: "interrupcoes",
+    description: "Tabelas de interrupcoes tratadas de 2023 e 2024",
+    columns: {
+    },
+    bigquery: {
+        partitionBy: "CAST(dataGeracaoCarga AS DATE)"
+    }
+}
+
+SELECT
+    dataGeracaoCarga
+  , idUnidadeConsumidora
+  , dscUnidadeConsumidora
+  , alimentador
+  , subestacao
+  , ordemInterrupcao
+  , tipoInterrupcao
+  , idMotivoInterrupcao
+  , inicioInterrupcao
+  , fimInterrupcao
+  , duracaoInterrupcao
+  , causaRaiz
+  , NomeDistribuidora
+FROM 
+    standard.tb_interrupcoes

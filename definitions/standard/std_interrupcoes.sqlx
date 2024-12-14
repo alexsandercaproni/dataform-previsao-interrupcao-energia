@@ -1,0 +1,69 @@
+config {
+    type: "table",
+    schema: "standard",
+    name: "tb_interrupcoes",
+    description: "Tabelas de interrupções de energia registradas em 2023 e 2024",
+    columns: {
+    },
+    bigquery: {
+        partitionBy: "CAST(dataGeracaoCarga AS DATE)"
+    }
+}
+
+
+SELECT
+  DatGeracaoConjuntoDados AS dataGeracaoCarga
+  , IdeConjuntoUnidadeConsumidora AS idUnidadeConsumidora
+  , DscConjuntoUnidadeConsumidora AS dscUnidadeConsumidora
+  , DscAlimentadorSubestacao AS alimentador
+  , DscSubestacaoDistribuicao AS subestacao
+  , NumOrdemInterrupcao AS ordemInterrupcao
+  , DscTipoInterrupcao AS tipoInterrupcao
+  , IdeMotivoInterrupcao AS idMotivoInterrupcao
+  , DatInicioInterrupcao AS inicioInterrupcao
+  , DatFimInterrupcao AS fimInterrupcao
+  , DatFimInterrupcao - DatInicioInterrupcao AS duracaoInterrupcao
+  , DscFatoGeradorInterrupcao AS causaRaiz
+  --, ${helpers.normalizaNomeDistribuidora("SigAgente")} AS NomeDistribuidora
+  , LTRIM(RTRIM(SigAgente)) AS NomeDistribuidora
+FROM
+  ${ref("tb_interrupcao_energia_2023")}
+WHERE
+  DatGeracaoConjuntoDados IS NOT NULL
+  AND LOWER(SigAgente) LIKE '%coelba%'
+    OR LOWER(SigAgente) LIKE '%celpe%'
+    OR LOWER(SigAgente) LIKE '%cosern%'
+    OR LOWER(SigAgente) LIKE '%elektro%'
+    OR LOWER(SigAgente) LIKE '%neoenergia%'
+    OR LOWER(SigAgente) LIKE '%coelba%'
+    OR LOWER(SigAgente) LIKE '%pernambuco%'
+
+UNION DISTINCT
+
+SELECT
+  DatGeracaoConjuntoDados AS dataGeracaoCarga
+  , IdeConjuntoUnidadeConsumidora AS idUnidadeConsumidora
+  , DscConjuntoUnidadeConsumidora AS dscUnidadeConsumidora
+  , DscAlimentadorSubestacao AS alimentador
+  , DscSubestacaoDistribuicao AS subestacao
+  , NumOrdemInterrupcao AS ordemInterrupcao
+  , DscTipoInterrupcao AS tipoInterrupcao
+  , IdeMotivoInterrupcao AS idMotivoInterrupcao
+  , DatInicioInterrupcao AS inicioInterrupcao
+  , DatFimInterrupcao AS fimInterrupcao
+  , DatFimInterrupcao - DatInicioInterrupcao AS duracaoInterrupcao
+  , DscFatoGeradorInterrupcao AS causaRaiz
+  --, ${helpers.normalizaNomeDistribuidora("SigAgente")} AS NomeDistribuidora
+  , LTRIM(RTRIM(SigAgente)) AS NomeDistribuidora
+FROM
+  ${ref("tb_interrupcao_energia_2024")}
+WHERE
+  DatGeracaoConjuntoDados IS NOT NULL
+  AND LOWER(SigAgente) LIKE '%coelba%'
+    OR LOWER(SigAgente) LIKE '%celpe%'
+    OR LOWER(SigAgente) LIKE '%cosern%'
+    OR LOWER(SigAgente) LIKE '%elektro%'
+    OR LOWER(SigAgente) LIKE '%neoenergia%'
+    OR LOWER(SigAgente) LIKE '%coelba%'
+    OR LOWER(SigAgente) LIKE '%pernambuco%'
+
