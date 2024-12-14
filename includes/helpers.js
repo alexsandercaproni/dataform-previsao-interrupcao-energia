@@ -5,11 +5,12 @@ const distribuidoraMap = {
     'COMPANHIA ENERGÉTICA DO RIO GRANDE DO NORTE COSERN': 'Cosern',
     'ELEKTRO REDES S.A.': 'Elektro',
     'NEOENERGIA DISTRIBUICAO BRASILIA S.A.': 'Brasilia',
-    'NEOENERGIA DISTRIBUI�ÃO BRASÍLIA S.A.': 'Brasilia'
-  };
+    'NEOENERGIA DISTRIBUI�ÃO BRASÍLIA S.A.': 'Brasilia',
+};
 
-function normalizaDistribuidora(dist) {
+
+function normalizaNomeDistribuidora(dist) {
     return distribuidoraMap[dist] || dist;
 }
 
-module.exports = { normalizaDistribuidora };
+module.exports = { normalizaNomeDistribuidora };

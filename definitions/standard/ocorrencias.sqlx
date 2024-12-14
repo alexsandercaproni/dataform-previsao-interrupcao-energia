@@ -1,0 +1,53 @@
+config {
+    type: "table",
+    schema: "standard",
+    name: "tb_ocorrencias",
+    description: "Tabelas de ocorrencias registradas em 2023 e 2024",
+    columns: {
+    },
+    bigquery: {
+        partitionBy: "CAST(dataGeracaoCarga AS DATE)"
+    }
+}
+
+
+SELECT
+  DatGeracaoConjuntoDados AS dataGeracaoCarga
+  , IdeConjuntoUnidadeConsumidora AS idUnidadeConsumidora
+  , DscConjuntoUnidadeConsumidora AS dscUnidadeConsumidora
+  , DscAlimentadorSubestacao AS alimentador
+  , DscSubestacaoDistribuicao AS subestacao
+  , NumOrdemInterrupcao AS ordemInterrupcao
+  , DscTipoInterrupcao AS tipoInterrupcao
+  , IdeMotivoInterrupcao AS idMotivoInterrupcao
+  , DatInicioInterrupcao AS inicioInterrupcao
+  , DatFimInterrupcao AS fimInterrupcao
+  , DatFimInterrupcao - DatInicioInterrupcao AS duracaoInterrupcao
+  , DscFatoGeradorInterrupcao AS causaRaiz
+  ,${helpers.normalizaNomeDistribuidora("SigAgente")} AS NomeDistribuidora
+FROM
+  ${ref("tb_ocorrencias_2023")}
+WHERE
+  DatGeracaoConjuntoDados IS NOT NULL
+
+UNION DISTINCT
+
+SELECT
+  DatGeracaoConjuntoDados AS dataGeracaoCarga
+  , IdeConjuntoUnidadeConsumidora AS idUnidadeConsumidora
+  , DscConjuntoUnidadeConsumidora AS dscUnidadeConsumidora
+  , DscAlimentadorSubestacao AS alimentador
+  , DscSubestacaoDistribuicao AS subestacao
+  , NumOrdemInterrupcao AS ordemInterrupcao
+  , DscTipoInterrupcao AS tipoInterrupcao
+  , IdeMotivoInterrupcao AS idMotivoInterrupcao
+  , DatInicioInterrupcao AS inicioInterrupcao
+  , DatFimInterrupcao AS fimInterrupcao
+  , DatFimInterrupcao - DatInicioInterrupcao AS duracaoInterrupcao
+  , DscFatoGeradorInterrupcao AS causaRaiz
+  , ${helpers.normalizaNomeDistribuidora("SigAgente")} AS NomeDistribuidora
+FROM
+  ${ref("tb_ocorrencias_2024")}
+WHERE
+  DatGeracaoConjuntoDados IS NOT NULL
+

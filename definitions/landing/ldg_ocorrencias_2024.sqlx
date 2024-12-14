@@ -1,0 +1,9 @@
+config {
+  type: "declaration",
+  schema: "landing",
+  name: "tb_ocorrencias_2024",
+  description: "Dados brutos de ocorrencias em 2024 em todas as distribuidoras do Brasil",
+  columns: {
+    
+  }
+}
