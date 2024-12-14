@@ -1,0 +1,27 @@
+config {
+    type: "table",
+    schema: "consumer_layer",
+    name: "ocorrencias",
+    description: "Tabelas de ocorrencias tratadas de 2023 e 2024",
+    columns: {
+    },
+    bigquery: {
+        partitionBy: "CAST(dataGeracaoCarga AS DATE)"
+    }
+}
+
+SELECT
+    dataGeracaoCarga
+    , ${helpers.normalizaNomeDistribuidora("nomeDistribuidora")} AS distribuidora
+    , ocorrencia
+    , idConjunto
+    , canalAtendimento
+    , InicioOcorrencia
+    , FimOcorrencia
+    , duracaoOcorrencia
+    , descricaoOcorrencia
+    , tempoPreparoOcorrencia
+    , tempoDeslocamento
+    , tempoExecucao
+FROM 
+    standard.tb_ocorrencias
