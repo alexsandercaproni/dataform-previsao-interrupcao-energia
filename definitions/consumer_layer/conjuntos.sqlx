@@ -1,0 +1,21 @@
+config {
+    type: "table",
+    schema: "consumer_layer",
+    name: "conjuntos",
+    description: "Tabelas de conjuntos",
+    columns: {
+    },
+}
+
+SELECT 
+  CodConjuntoUC
+  , SUM(QtdConsAtivo) QtdConsAtivo
+  , MAX(mesUltimaInspecao) AS mesUltimaInspecao
+  , MAX(anoUltumaInspecao) AS anoUltumaInspecao
+  , MAX(mesUltimaManutencaoPrev) AS mesUltimaManutencaoPrev
+  , MAX(anoUltimaManutencaoPrev) AS anoUltimaManutencaoPrev
+  , MAX(mesUltimaManutencaoCorr) AS mesUltimaManutencaoCorr
+  , MAX(anoUltimaManutencaoCorr) AS anoUltimaManutencaoCorr
+FROM 
+  consumer_layer.alimentadores
+GROUP BY CodConjuntoUC

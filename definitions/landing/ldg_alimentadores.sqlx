@@ -1,0 +1,9 @@
+config {
+  type: "declaration",
+  schema: "landing",
+  name: "tb_alimentadores",
+  description: "Dados brutos dos alimentadores",
+  columns: {
+    
+  }
+}

@@ -1,0 +1,34 @@
+config {
+    type: "table",
+    schema: "standard",
+    name: "tb_alimentadores",
+    description: "Tabelas de alimentadores",
+    columns: {
+    },
+}
+
+SELECT 
+  NomAgente
+  , CodConjuntoUC 
+  , CodAlimentador
+  , ROUND(AVG(QtdConsAtivo)) AS QtdConsAtivo
+  , MAX(NumMesUltInspecao) AS mesUltimaInspecao
+  , MAX(NumAnoUltInspecao) AS anoUltumaInspecao
+  , MAX(NumMesUltManutencaoPrev) AS mesUltimaManutencaoPrev
+  , MAX(NumAnoUltManutencaoPrev) AS anoUltimaManutencaoPrev
+  , MAX(NumMesUltManutencaoCorr) AS mesUltimaManutencaoCorr
+  , MAX(NumAnoUltManutencaoCorr) AS anoUltimaManutencaoCorr
+FROM 
+  dados_aneel.dados_alimentadores 
+WHERE 
+  LOWER(SigAgente) LIKE '%coelba%'
+    OR LOWER(SigAgente) LIKE '%celpe%'
+    OR LOWER(SigAgente) LIKE '%cosern%'
+    OR LOWER(SigAgente) LIKE '%elektro%'
+    OR LOWER(SigAgente) LIKE '%neoenergia%'
+    OR LOWER(SigAgente) LIKE '%coelba%'
+    OR LOWER(SigAgente) LIKE '%pernambuco%'
+GROUP BY 
+  NomAgente
+  , CodConjuntoUC 
+  , CodAlimentador

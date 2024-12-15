@@ -1,0 +1,22 @@
+config {
+    type: "table",
+    schema: "consumer_layer",
+    name: "alimentadores",
+    description: "Tabelas de alimentadores",
+    columns: {
+    },
+}
+
+SELECT
+    NomAgente
+  , CAST(CodConjuntoUC AS INT64) AS CodConjuntoUC
+  , CodAlimentador
+  , CAST(QtdConsAtivo AS INT64) AS QtdConsAtivo
+  , mesUltimaInspecao
+  , anoUltumaInspecao
+  , mesUltimaManutencaoPrev
+  , anoUltimaManutencaoPrev
+  , mesUltimaManutencaoCorr
+  , anoUltimaManutencaoCorr
+FROM 
+    standard.tb_alimentadores
