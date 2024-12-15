@@ -20,6 +20,7 @@ SELECT
     , FimOcorrencia
     , duracaoOcorrencia
     , descricaoOcorrencia
+    , NumInterrupcao
     , tempoPreparoOcorrencia
     , tempoDeslocamento
     , tempoExecucao

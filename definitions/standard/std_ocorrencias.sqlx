@@ -20,6 +20,7 @@ SELECT
   , DthFimOcorrenciaAberta AS FimOcorrencia
   , DthFimOcorrenciaAberta - DthInicioOcorrenciaAberta AS duracaoOcorrencia
   , DscOcorrenciaAberta AS descricaoOcorrencia
+  , DscNumInterrupcao AS NumInterrupcao
   , MdaPreparo AS tempoPreparoOcorrencia
   , MdaDeslocamento AS tempoDeslocamento
   , MdaExecucao AS tempoExecucao
@@ -46,6 +47,7 @@ SELECT
   , DthFimOcorrenciaAberta AS FimOcorrencia
   , DthFimOcorrenciaAberta - DthInicioOcorrenciaAberta AS duracaoOcorrencia
   , DscOcorrenciaAberta AS descricaoOcorrencia
+  , DscNumInterrupcao AS NumInterrupcao
   , MdaPreparo AS tempoPreparoOcorrencia
   , MdaDeslocamento AS tempoDeslocamento
   , MdaExecucao AS tempoExecucao
