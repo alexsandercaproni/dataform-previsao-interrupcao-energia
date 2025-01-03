@@ -1,0 +1,58 @@
+config {
+    type: "table",
+    schema: "consumer_layer",
+    name: "tb_dados_distribuidora",
+    description: "Tabelas final de ocorrencias, interrupções e manutenções das distribuidoras em 2023 e 2024",
+    columns: {
+    },
+
+}
+
+
+SELECT 
+  REPLACE(REPLACE(o.distribuidora, 'ELEKTRO REDES S.A.', 'ERSA'), 'NEOENERGIA DISTRIBUICAO BRASILIA S.A.', 'NDBSA') AS distribuidora
+  , o.ocorrencia
+  , o.idConjunto
+  , o.canalAtendimento
+  , o.InicioOcorrencia
+  , o.FimOcorrencia
+  , timestamp_diff(o.FimOcorrencia, o.InicioOcorrencia, MINUTE) AS duracaoOcorrencia
+  , o.descricaoOcorrencia
+  , o.NumInterrupcao
+  , i.OrdemInterrupcao
+  , i.tipoInterrupcao
+  , i.idMotivoInterrupcao
+  , i.inicioInterrupcao
+  , i.fimInterrupcao
+  , timestamp_diff(i.fimInterrupcao, i.inicioInterrupcao, MINUTE) AS duracaoInterrupcao
+  , i.causaRaiz
+  , c.QtdConsAtivo
+  , c.mesUltimaInspecao
+  , c.anoUltumaInspecao
+  , c.mesUltimaManutencaoPrev
+  , c.anoUltimaManutencaoPrev
+  , c.mesUltimaManutencaoCorr
+  , c.anoUltimaManutencaoCorr
+  , CASE WHEN  o.NumInterrupcao = 'S/I' THEN 'N' ELSE 'Y' END AS isInterrupcao
+FROM 
+  consumer_layer.ocorrencias o
+LEFT JOIN consumer_layer.interrupcoes i
+    on i.idUnidadeConsumidora = o.idConjunto
+      and o.NumInterrupcao = i.OrdemInterrupcao
+LEFT JOIN consumer_layer.conjuntos c
+    on c.CodConjuntoUC = o.idConjunto
+WHERE 
+  lower(o.distribuidora) like '%elektro%'
+    or lower(o.distribuidora) like '%brasilia%'
+
+
+
+-- Corrigindo casos de S/I com data de interrupção vazia
+--UPDATE  
+--   consumer_layer.tb_dados_distribuidora
+--SET
+--    NumInterrupcao = 'S/I'
+--WHERE 
+--    NumInterrupcao <> 'S/I'
+--AND 
+--    inicioInterrupcao is null

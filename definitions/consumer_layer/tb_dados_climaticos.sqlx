@@ -1,0 +1,75 @@
+config {
+    type: "table",
+    schema: "consumer_layer",
+    name: "tb_dados_climaticos",
+    description: "Tabelas contendo dados climaticos em 2023 e 2024 das regiões de Brasilia e Campinas",
+    columns: {
+      station: {
+        description: "Identificador numerico da estacao metereologica"
+      },
+      distribuidora: {
+        description: "Distribuidora de energia afetada"
+      },
+      temperature_celsius: {
+        description: "Média da temperatura em graus celsius"
+      },
+      wind_speed: {
+        description: "Média da velocidade do vento"
+      },
+      max_speed: {
+        description: "Maxima velocidade do vento registrada no dia"
+      },
+      precipitation: {
+        description: "Média de precipitação de chuva registrada no dia"
+      },
+      flag_prcp: {
+        description: "A = 1 report of 6-hour precipitation amount B = Summation of 2 reports of 6-hour precipitation amount C = Summation of 3 reports of 6-hour precipitation amount D = Summation of 4 reports of 6-hour precipitation amount E = 1 report of 12-hour precipitation amount F = Summation of 2 reports of 12-hour precipitation amount G = 1 report of 24-hour precipitation amount H = Station reported '0' as the amount for the day (eg, from 6-hour reports), but also reported at least one occurrence of precipitation in hourly observations--this could indicate a trace occurred, but should be considered as incomplete data for the day. I = Station did not report any precip data for the day and did not report any occurrences of precipitation in its hourly observations--it's still possible that precip occurred but was not reported"
+      },
+      visibility: {
+        description: "Média de visibilidade "
+      },
+      fog: {
+        description: "Indicador de Neblina (1 = yes, 0 = no/not reported) for the occurrence during the day"
+      },
+      hail: {
+        description: "Indicador de Granizo (1 = yes, 0 = no/not reported) for the occurrence during the day"
+      },
+      thunder: {
+        description: "Indicador de Trovão (1 = yes, 0 = no/not reported) for the occurrence during the day"
+      },
+      date: {
+        description: "Data do registro"
+      }
+    },
+
+}
+
+
+SELECT
+  stn AS station,
+  CASE WHEN stn = '837210' THEN 'ERSA' ELSE 'NDBSA' END AS distribuidora,
+  date,
+  ROUND(AVG(IF (temp=9999.9, null, ((TEMP - 32) * 5.0 / 9.0)))) AS temperature_celsius,
+  AVG(IF (wdsp="999.9", null, CAST(wdsp AS Float64))) AS wind_speed,
+  AVG(IF (mxpsd="999.9", null, CAST(mxpsd AS Float64))) AS max_speed,
+  AVG(IF (prcp=99.99, 0, prcp)) AS precipitation,
+  flag_prcp,
+  AVG(IF (visib=99.99, 0, visib)) AS visibility,
+  fog, 
+  hail, 
+  thunder
+FROM
+  `bigquery-public-data.noaa_gsod.gsod20*`
+WHERE
+  CAST(YEAR AS INT64) > 2022
+  AND stn IN ('837210','867150') -- Viracopos/Campinas e Brasilia 
+GROUP BY
+  stn,
+  flag_prcp,
+  fog, 
+  hail, 
+  thunder,
+  date
+ORDER BY
+  date DESC,
+  distribuidora ASC
