@@ -1,0 +1,26 @@
+config {
+    type: "table",
+    schema: "consumer_layer",
+    name: "tb_dados_finais",
+    description: "Tabelas contendo dados climaticos e das distribuidoras em 2023 e 2024",
+    columns: {}
+}
+
+SELECT
+  d.*
+  , c.temperature_celsius
+  , c.wind_speed
+  , c.max_speed
+  , c.precipitation
+  , c.flag_prcp
+  , c.visibility
+  , c.fog
+  , c.hail
+  , c.thunder
+FROM
+  consumer_layer.tb_dados_distribuidora d
+LEFT JOIN
+  consumer_layer.tb_dados_climaticos c
+ON
+  c.date = CAST(d.InicioOcorrencia AS date)
+  AND c.distribuidora = d.distribuidora

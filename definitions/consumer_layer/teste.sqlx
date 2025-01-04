@@ -1,0 +1,7 @@
+config {
+  type: "table",
+  schema: "standard",
+  name: "gsod2023"
+}
+
+SELECT * FROM bigquery-public-data.noaa_gsod.gsod2023 limit 10
