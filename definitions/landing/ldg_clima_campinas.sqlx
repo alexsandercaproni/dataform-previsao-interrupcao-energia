@@ -1,0 +1,9 @@
+config {
+  type: "declaration",
+  schema: "landing",
+  name: "tb_clima_campinas",
+  description: "Dados do clima da cidade de Campinas",
+  columns: {
+    
+  }
+}
