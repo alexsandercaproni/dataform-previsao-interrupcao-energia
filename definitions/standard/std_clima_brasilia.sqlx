@@ -1,0 +1,32 @@
+config {
+    type: "table",
+    schema: "standard",
+    name: "tb_dados_climaticos_brasilia",
+    description: "Tabelas de dados climáticos de Brasilia em 2023 e 2024",
+    columns: {
+    }
+}
+
+
+SELECT 
+  data_observacao
+  , distribuidora
+  , temperature
+  , precipitation
+  , CASE WHEN precipitation > 0 THEN 'Y' ELSE 'N' END flag_precipitation
+  , humidity
+  , wind
+FROM (
+  SELECT
+    PARSE_DATE('%Y-%m-%d', FORMAT('%s-%s-%s', SUBSTR(timestamp,1,4), SUBSTR(timestamp,5,2), SUBSTR(timestamp,7,2))) AS data_observacao
+    , 'NDBSA' AS distribuidora
+    , ROUND(AVG(temperature), 2) AS temperature
+    , ROUND(AVG(precipitation_total),2) AS precipitation
+    , ROUND(AVG(relative_humidity),2) AS humidity
+    , ROUND(AVG(wind_gust),2) AS wind
+  FROM
+    ${ref("tb_clima_brasilia")}
+  GROUP BY data_observacao, distribuidora
+  ORDER BY 1
+)
+

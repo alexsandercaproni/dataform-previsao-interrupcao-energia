@@ -8,19 +8,15 @@ config {
 
 SELECT
   d.*
-  , c.temperature_celsius
-  , c.wind_speed
-  , c.max_speed
+  , c.temperature
   , c.precipitation
-  , c.flag_prcp
-  , c.visibility
-  , c.fog
-  , c.hail
-  , c.thunder
+  , c.flag_precipitation
+  , c.humidity
+  , c.wind
 FROM
   consumer_layer.tb_dados_distribuidora d
 LEFT JOIN
   consumer_layer.tb_dados_climaticos c
 ON
-  c.date = CAST(d.InicioOcorrencia AS date)
+  c.data_observacao = CAST(d.InicioOcorrencia AS date)
   AND c.distribuidora = d.distribuidora
