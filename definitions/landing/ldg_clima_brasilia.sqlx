@@ -1,9 +1,0 @@
-config {
-  type: "declaration",
-  schema: "landing",
-  name: "tb_clima_brasilia",
-  description: "Dados do clima da cidade de Brasilia",
-  columns: {
-    
-  }
-}

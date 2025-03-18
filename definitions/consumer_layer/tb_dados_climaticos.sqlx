@@ -2,31 +2,40 @@ config {
     type: "table",
     schema: "consumer_layer",
     name: "tb_dados_climaticos",
-    description: "Tabelas contendo dados climaticos em 2023 e 2024 das regiões de Brasilia e Campinas",
+    description: "Tabelas contendo dados climaticos em 2023 e 2024 das regiões de Brasilia e Sao Paulo",
     columns: {
-      station: {
-        description: "Identificador numerico da estacao metereologica"
+      data: {
+        description: "Data da observacao do evento"
+      },
+      hora_utc: {
+        description: "Hora da observacao do evento"
       },
       distribuidora: {
-        description: "Distribuidora de energia afetada"
+        description: "Distribuidora de energia que contem a consessao da regiao"
       },
-      data_observacao: {
-        description: "Data da observação do evento"
+      precipitacao: {
+        description: "Precipitacao medida (chuva)"
       },
-      temperature: {
-        description: "Média da temperatura em graus celsius"
+      pressao_atmosferica: {
+        description: "Pressao atmosferica medida"
       },
-      precipitation: {
-        description: "Média de precipitação de chuva registrada no dia"
+      radiacao_global: {
+        description: "Radiacao global medida"
       },
-      flag_prcp: {
-        description: "A = 1 report of 6-hour precipitation amount B = Summation of 2 reports of 6-hour precipitation amount C = Summation of 3 reports of 6-hour precipitation amount D = Summation of 4 reports of 6-hour precipitation amount E = 1 report of 12-hour precipitation amount F = Summation of 2 reports of 12-hour precipitation amount G = 1 report of 24-hour precipitation amount H = Station reported '0' as the amount for the day (eg, from 6-hour reports), but also reported at least one occurrence of precipitation in hourly observations--this could indicate a trace occurred, but should be considered as incomplete data for the day. I = Station did not report any precip data for the day and did not report any occurrences of precipitation in its hourly observations--it's still possible that precip occurred but was not reported"
+      temperatura_ar: {
+        description: "Temperatura do ar medida"
       },
-      humidity: {
-        description: "Média de humidade do ar no dia "
+      umidade_relativa_ar: {
+        description: "Umidade relativa do ar medida"
       },
-      wind: {
-        description: "Média da velocidade do vento"
+      vento_direcao_horaria: {
+        description: "Vento na direcao horaria medida"
+      },
+      vento_rajada_maxima: {
+        description: "Vento de rajada maximo"
+      },
+      vento_velocidade_horaria: {
+        description: "Velocidade do vento na direcao horaria"
       }
     },
 
@@ -34,27 +43,34 @@ config {
 
 
 SELECT
-  data_observacao,
-  distribuidora,
-  temperature,
-  precipitation,
-  flag_precipitation,
-  humidity,
-  wind,
+  DATA_OBSERVACAO
+  , HORA_UTC
+  , DISTRIBUIDORA
+  , PRECIPITACAO
+  , PRESSAO_ATMOSFERICA
+  , RADIACAO_GLOBAL
+  , TEMPERATURA_AR
+  , UMIDADE_RELATIVA_AR
+  , VENTO_DIRECAO_HORARIA
+  , VENTO_RAJADA_MAXIMA
+  , VENTO_VELOCIDADE_HORARIA
 FROM
   ${ref("tb_dados_climaticos_brasilia")}
-UNION ALL
-SELECT
-  data_observacao,
-  distribuidora,
-  temperature,
-  precipitation,
-  flag_precipitation,
-  humidity,
-  wind,
-FROM
-  ${ref("tb_dados_climaticos_campinas")}
-ORDER BY
-  1
 
+UNION ALL
+
+SELECT
+  DATA_OBSERVACAO
+  , HORA_UTC
+  , DISTRIBUIDORA
+  , PRECIPITACAO
+  , PRESSAO_ATMOSFERICA
+  , RADIACAO_GLOBAL
+  , TEMPERATURA_AR
+  , UMIDADE_RELATIVA_AR
+  , VENTO_DIRECAO_HORARIA
+  , VENTO_RAJADA_MAXIMA
+  , VENTO_VELOCIDADE_HORARIA
+FROM
+  ${ref("tb_dados_climaticos_saopaulo")}
 
