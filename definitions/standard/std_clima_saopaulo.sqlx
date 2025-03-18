@@ -1,8 +1,8 @@
 config {
     type: "table",
     schema: "standard",
-    name: "tb_dados_climaticos_brasilia",
-    description: "Tabelas de dados climáticos de Brasilia em 2023 e 2024",
+    name: "tb_dados_climaticos_saopaulo",
+    description: "Tabelas de dados climáticos de Sao Paulo em 2023 e 2024",
     columns: {
     }
 }
@@ -11,7 +11,7 @@ config {
 SELECT
   Data AS DATA_OBSERVACAO
   , REPLACE(HORA, '00 UTC', '') AS HORA_UTC
-  , 'NDBSA' AS DISTRIBUIDORA
+  , 'ERSA' AS DISTRIBUIDORA
   , IFNULL(Precipitacao,0) AS PRECIPITACAO
   , IFNULL(PRESSAO_ATMOSFERICA,0) AS PRESSAO_ATMOSFERICA
   , IFNULL(RADIACAO_GLOBAL,0) AS RADIACAO_GLOBAL
@@ -21,14 +21,14 @@ SELECT
   , IFNULL(VENTO_RAJADA_MAXIMA,0) AS VENTO_RAJADA_MAXIMA
   , IFNULL(VENTO_VELOCIDADE_HORARIA,0) AS VENTO_VELOCIDADE_HORARIA
 FROM
-  ${ref("tb_dados_clima_brasilia_2023")}
+  ${ref("tb_dados_clima_saopaulo_2023")}
 
 UNION ALL
 
 SELECT
   Data AS DATA_OBSERVACAO
   , REPLACE(HORA, '00 UTC', '') AS HORA_UTC
-  , 'NDBSA' AS DISTRIBUIDORA
+  , 'ERSA' AS DISTRIBUIDORA
   , IFNULL(Precipitacao,0) AS PRECIPITACAO
   , IFNULL(PRESSAO_ATMOSFERICA,0) AS PRESSAO_ATMOSFERICA
   , IFNULL(RADIACAO_GLOBAL,0) AS RADIACAO_GLOBAL
@@ -38,5 +38,5 @@ SELECT
   , IFNULL(VENTO_RAJADA_MAXIMA,0) AS VENTO_RAJADA_MAXIMA
   , IFNULL(VENTO_VELOCIDADE_HORARIA,0) AS VENTO_VELOCIDADE_HORARIA
 FROM
-  ${ref("tb_dados_clima_brasilia_2024")}
+  ${ref("tb_dados_clima_saopaulo_2024")}
 GROUP BY ALL

@@ -1,7 +1,7 @@
 config {
   type: "declaration",
   schema: "landing",
-  name: "tb_clima_campinas",
+  name: "tb_dados_clima_brasilia_2024",
   description: "Dados do clima da cidade de Campinas",
   columns: {
     

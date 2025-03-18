@@ -1,0 +1,9 @@
+config {
+  type: "declaration",
+  schema: "landing",
+  name: "tb_dados_clima_saopaulo_2023",
+  description: "Dados do clima da cidade de Sao Paulo em 2023",
+  columns: {
+    
+  }
+}
